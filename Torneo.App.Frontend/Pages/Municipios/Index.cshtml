@@ -22,11 +22,16 @@
                     <a class="btn btn-primary" asp-page="./Details" asp-route-id="@municipio.Id">
                         Detalle
                     </a>
-                </td>
-                <td>
-                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@municipio.Id">
+                     <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@municipio.Id">
                         Editar
                     </a>
+                    <form method="post" class="d-inline">
+                        <button type="submit" asp-page-handler="Delete" asp-route-id="@municipio.Id" 
+                            onclick="return confirm('Are you sure you want to delete?')" 
+                            class="btn btn-danger">
+                                Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
         }

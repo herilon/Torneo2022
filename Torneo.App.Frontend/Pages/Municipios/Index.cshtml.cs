@@ -18,6 +18,14 @@ namespace Torneo.App.Frontend.Pages.Municipios
         public void OnGet()
         {
             municipios = _repoMunicipio.GetAllMunicipios();
+            Console.WriteLine("Entro al get");
         }
+
+        public IActionResult OnPostDelete(int id)  
+        {  
+            Console.WriteLine("Entro al delete");
+            return RedirectToPage("Index"); 
+             
+        } 
     }
 }
