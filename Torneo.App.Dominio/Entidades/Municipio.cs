@@ -8,6 +8,7 @@ namespace Torneo.App.Dominio
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(50, ErrorMessage = "Maximo 50 caracteres")]
         public string Nombre { get; set; }
+        public List<Equipo> Equipos { get; set; }
     }
 }
 
