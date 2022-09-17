@@ -14,6 +14,8 @@ namespace Torneo.App.Frontend.Pages.Equipos
         public IEnumerable<Equipo> equipos { get; set; }
         public SelectList MunicipioOptions { get; set; }
         public int MunicipioSelected { get; set; }
+        public string BusquedaActual { get; set; }
+
 
         public IndexModel(IRepositorioEquipo repoEquipo, IRepositorioMunicipio repoMunicipio)
         {
@@ -21,18 +23,42 @@ namespace Torneo.App.Frontend.Pages.Equipos
             _repoMunicipio = repoMunicipio;
         }
         
-        public void OnGet(int? idMunicipio)
+        public void OnGet()
         {
             MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
-            if (idMunicipio.HasValue && idMunicipio.Value != -1)
+            equipos = _repoEquipo.GetAllEquipos();
+            MunicipioSelected = -1;
+            BusquedaActual = "";
+        }
+
+        public void OnPostFiltro(int idMunicipio)
+        {
+            MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
+            if (idMunicipio != -1)
             {
-                MunicipioSelected = idMunicipio.Value;
+                MunicipioSelected = idMunicipio;
                 equipos = _repoEquipo.GetEquiposMunicipio(MunicipioSelected);
             }
             else
             {
                 equipos = _repoEquipo.GetAllEquipos();
                 MunicipioSelected = -1;
+            }
+        }
+
+        public void OnPostBuscar(string nombre)
+        {
+            MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
+            MunicipioSelected = -1;
+            if (string.IsNullOrEmpty(nombre))
+            {
+                BusquedaActual = "";
+                equipos = _repoEquipo.GetAllEquipos();
+            }
+            else
+            {
+                BusquedaActual = nombre;
+                equipos = _repoEquipo.SearchEquipos(nombre);
             }
         }
     }
