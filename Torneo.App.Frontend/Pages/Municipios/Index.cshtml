@@ -8,7 +8,10 @@
         No se pudo eliminar el Municipio
     </div>
 }
-<a class="btn btn-primary" asp-page="./Create">Crear municipio</a>
+@if (User.Identity.IsAuthenticated)
+{
+    <a class="btn btn-primary" asp-page="./Create">Crear municipio</a>
+}
 <h1>Listado de municipios</h1>
 <table class="table">
     <thead class="thead-dark">
@@ -28,20 +31,22 @@
                     <a class="btn btn-primary" asp-page="./Details" asp-route-id="@municipio.Id">
                         Detalle
                     </a>
-                     <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@municipio.Id">
-                        Editar
-                    </a>
-                    @if (municipio.Equipos.Count == 0)
-                    {
-                        <form method="post" class="d-inline">
-                            <button asp-page-handler="Delete" asp-route-id="@municipio.Id" 
-                                onclick="return confirm('Esta seguro de eliminar el municipio?')" 
-                                class="btn btn-danger">
-                                    Delete
-                            </button>
-                        </form>
+                    @if (User.Identity.IsAuthenticated)
+                    {    
+                        <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@municipio.Id">
+                            Editar
+                        </a>
+                        @if (municipio.Equipos.Count == 0)
+                        {
+                            <form method="post" class="d-inline">
+                                <button asp-page-handler="Delete" asp-route-id="@municipio.Id" 
+                                    onclick="return confirm('Esta seguro de eliminar el municipio?')" 
+                                    class="btn btn-danger">
+                                        Delete
+                                </button>
+                            </form>
+                        }
                     }
-
                 </td>
             </tr>
         }
